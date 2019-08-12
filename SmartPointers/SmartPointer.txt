@@ -1,0 +1,37 @@
+Smart Pointers
+
+Q. what are they ?
+They are just a way to automate memory management. 
+They ensure you dont have to call 'delete' explicitly.
+
+Q. why are they needed ?
+As a safe guard against memory/resource leaks.
+
+Q. How do smart pointer work?
+the ownership of heap allocated resource is transferred to 
+stack allocated proxy object whose destructor contains the code 
+to delete or free the resource.
+
+Q. explain me the simplest form of smart pointer ?
+There are three kind of smart pointers in C++ standard library:
+unique_ptr
+shared_ptr
+weak_ptr
+
+Out of the above three unique_ptr is the simplest. 
+It stores the pointer to an owned object.
+The object cannot be owned by any other unique_ptr. Ownership can only be transferred.
+The object is destroyed when unique_ptr is destroyed.
+Note: passing unique_ptr as function argument is considered bad practice as it may lead to hidden leaks*.
+
+Q. How to manage shared ownership of objects? to rephrase the question, how keep multiple references of a pointer ?
+shared_ptr allows us to have multiple owners to the same object, an owner count is maintained internally
+The object is destroyed when owner count reaches zero is destroyed
+
+Q. Well then, why is a weak_ptr needed ?
+A weak_ptr provides access to an object that is owned by one or more shared_ptr instances,
+but does not participate in reference counting. So they have no control over object lifetime.
+A weak_ptr is needed to resolve cyclic dependency, imagine two shared_ptr having member variables pointing to each other.
+
+Note: detailed explaination in samples.
+Note: Include <memory> header to make smart pointer available.
